@@ -84,6 +84,15 @@ export default function MessagesPage() {
         }
     }, [selectedConversationId]);
 
+  // Atualização automática das mensagens (polling) enquanto a conversa está selecionada
+  useEffect(() => {
+    if (!selectedConversationId) return;
+    const intervalId = setInterval(() => {
+      loadMessages(selectedConversationId);
+    }, 3000);
+    return () => clearInterval(intervalId);
+  }, [selectedConversationId]);
+
     const loadData = async () => {
         try {
             const [conversationsData, contactsData] = await Promise.all([

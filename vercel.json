@@ -1,1 +1,13 @@
-{\n  "redirects": [\n    { "source": /, "destination": /api/ui, "permanent": false }\n  ]\n}\n
+{
+  "buildCommand": "npm --prefix webapp ci && npm --prefix webapp run build",
+  "outputDirectory": "webapp/dist",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
+  ]
+}
+EOF
+node -e "JSON.parse(require(fs).readFileSync(vercel.json,utf8)); console.log(vercel.json
