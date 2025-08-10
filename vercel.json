@@ -1,0 +1,1 @@
+{\n  "redirects": [\n    { "source": /, "destination": /api/ui, "permanent": false }\n  ]\n}\n
