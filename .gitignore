@@ -1,0 +1,10 @@
+node_modules/
+webapp/node_modules/
+.env*
+!.env.example
+.DS_Store
+.vercel/
+webapp/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
