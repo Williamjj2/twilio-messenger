@@ -1,0 +1,17 @@
+{
+  "name": "twilio-messenger-backend",
+  "version": "1.0.0",
+  "description": "Backend serverless para envio/recebimento de mensagens via Twilio com persistência no Supabase.",
+  "main": "api/twilio-webhook.js",
+  "private": true,
+  "scripts": {
+    "start": "node dev.js",
+    "lint": "echo 'no lint configured'",
+    "dev": "node dev.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "axios": "^1.6.0",
+    "twilio": "^5.3.4"
+  }
+}
