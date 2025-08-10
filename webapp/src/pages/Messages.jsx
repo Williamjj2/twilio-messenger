@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 import { Contact, Conversation, Message, User } from "@/entities/all";
 import { InvokeLLM } from "@/integrations/Core"; // Updated import
 import { useLocation, useNavigate } from "react-router-dom";
@@ -91,6 +92,25 @@ export default function MessagesPage() {
       loadMessages(selectedConversationId);
     }, 3000);
     return () => clearInterval(intervalId);
+  }, [selectedConversationId]);
+
+  // Realtime via Supabase (se disponível). Ao receber insert/update, recarrega mensagens
+  useEffect(() => {
+    if (!selectedConversationId) return;
+    if (!supabase) return; // sem envs VITE_*, mantém polling
+    const channel = supabase.channel(`messages:conversation:${selectedConversationId}`);
+    channel
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'messages', filter: `conversation_id=eq.${selectedConversationId}` },
+        () => {
+          loadMessages(selectedConversationId);
+        }
+      )
+      .subscribe();
+    return () => {
+      try { supabase.removeChannel(channel); } catch (_) {}
+    };
   }, [selectedConversationId]);
 
     const loadData = async () => {
